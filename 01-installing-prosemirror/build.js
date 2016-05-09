@@ -10,6 +10,10 @@ var browserify = require('browserify');
 var babelify = require('babelify');
 var watchify = require('watchify');
 
+if (!fs.existsSync('dist')){
+  fs.mkdirSync('dist')
+}
+
 var b = browserify('src/index.js', {
   plugin: [ watchify ]
 })

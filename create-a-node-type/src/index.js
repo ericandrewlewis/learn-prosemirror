@@ -3,7 +3,7 @@ import "prosemirror/dist/inputrules/autoinput"
 import "prosemirror/dist/menu/tooltipmenu"
 import "prosemirror/dist/menu/menubar"
 import {Schema, defaultSchema} from "prosemirror/dist/model"
-import BlockOfColor from "./custom-node"
+import BlockOfColor from "./block-of-color"
 
 const place = document.querySelector("#editor")
 const initialContent = document.querySelector("#initial-content")
