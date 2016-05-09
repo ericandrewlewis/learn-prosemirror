@@ -3,7 +3,8 @@ import "prosemirror/dist/inputrules/autoinput"
 import "prosemirror/dist/menu/tooltipmenu"
 import "prosemirror/dist/menu/menubar"
 import {Schema, defaultSchema} from "prosemirror/dist/model"
-import BlockOfColor from "./block-of-color"
+import BlockOfColor from "./image-block"
+
 
 const place = document.querySelector("#editor")
 const initialContent = document.querySelector("#initial-content")
@@ -17,7 +18,7 @@ const pm = window.pm = new ProseMirror({
   schema: customSchema
 })
 
-content.style.display = "none"
+initialContent.style.display = "none"
 
 // To insert the block...
 // pm.tr.replaceSelection(pm.schema.nodes.block_of_color.create()).apply()

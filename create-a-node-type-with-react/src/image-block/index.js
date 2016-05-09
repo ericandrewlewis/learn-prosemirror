@@ -1,6 +1,6 @@
 import { Block, Attribute } from "prosemirror/dist/model"
 import { elt } from "prosemirror/dist/dom"
-import BlockOfColorComponent from "./block-of-color-component.jsx"
+import BlockOfColorComponent from "./component.jsx"
 import React from 'react';
 import ReactDOM from 'react-dom';
 
