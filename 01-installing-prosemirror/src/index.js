@@ -1,3 +1,7 @@
+/**
+ * We "import" a few modules from the ProseMirror package, which is the
+ * ES6 method for using other code.
+ */
 import {ProseMirror} from "prosemirror/dist/edit"
 import "prosemirror/dist/inputrules/autoinput"
 import "prosemirror/dist/menu/tooltipmenu"
@@ -11,5 +15,3 @@ let pm = window.pm = new ProseMirror({
   doc: content,
   docFormat: "dom"
 })
-
-content.style.display = "none"

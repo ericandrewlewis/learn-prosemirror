@@ -22,7 +22,7 @@ bundle()
 // Bundle the application's scripts into a file for distribution.
 function bundle() {
   process.stdout.write("Bundling source...");
-  b.transform('babelify', {presets: ['es2015']})
+  b.transform('babelify', {presets: ['es2015', 'react']})
     .bundle()
       .on('error', function(err){
         process.stdout.write("\n\033[31mBuild error\033[0m: ");
