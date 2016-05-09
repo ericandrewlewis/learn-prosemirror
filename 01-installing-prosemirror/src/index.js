@@ -8,10 +8,10 @@ import "prosemirror/dist/menu/tooltipmenu"
 import "prosemirror/dist/menu/menubar"
 
 let place = document.querySelector("#editor")
-let content = document.querySelector("#content")
+let initialContent = document.querySelector("#initial-content")
 
 let pm = window.pm = new ProseMirror({
   place: place,
-  doc: content,
+  doc: initialContent,
   docFormat: "dom"
 })
