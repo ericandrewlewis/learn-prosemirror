@@ -8,10 +8,6 @@ export default class BlockOfColor extends Block {
     }
   }
 
-  get draggable() { return true }
-
-  get locked() { return false }
-
   get contains() { return null }
 
   serializeDOM(node, serializer) {

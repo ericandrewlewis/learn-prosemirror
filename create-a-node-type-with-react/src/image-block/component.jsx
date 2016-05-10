@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class BlockOfColorComponent extends React.Component {
+export default class ImageBlockComponent extends React.Component {
   render() {
     return (
       <div>

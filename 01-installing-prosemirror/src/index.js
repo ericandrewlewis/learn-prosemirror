@@ -6,6 +6,7 @@ import {ProseMirror} from "prosemirror/dist/edit"
 
 let place = document.querySelector("#editor")
 let initialContent = document.querySelector("#initial-content")
+initialContent.style.display = "none"
 
 let pm = window.pm = new ProseMirror({
   place: place,

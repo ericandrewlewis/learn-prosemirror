@@ -3,18 +3,19 @@ import "prosemirror/dist/inputrules/autoinput"
 import "prosemirror/dist/menu/tooltipmenu"
 import "prosemirror/dist/menu/menubar"
 import {Schema, defaultSchema} from "prosemirror/dist/model"
-import BlockOfColor from "./block-of-color"
+import {SuperscriptMark} from "./superscript-mark"
 
 const place = document.querySelector("#editor")
 const initialContent = document.querySelector("#initial-content")
 
-const customSchema = new Schema(defaultSchema.spec.update({block_of_color: BlockOfColor}))
+const customSchema = new Schema(defaultSchema.spec.update({}, {superscript: SuperscriptMark}))
 
 const pm = window.pm = new ProseMirror({
   place: place,
   doc: initialContent,
   docFormat: "dom",
-  schema: customSchema
+  schema: customSchema,
+  menuBar: true
 })
 
 initialContent.style.display = "none"
