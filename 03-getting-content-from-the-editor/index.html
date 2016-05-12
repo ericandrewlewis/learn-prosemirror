@@ -8,11 +8,36 @@
     <body>
     <div class="container">
       <h1>Getting content from the document</h1>
-      <p>ProseMirror stores content internally in a data structure that looks like something. It can also output to html. If you need a different output you should probably write a serializer that outputs to your preferred format.</p>
-      <div id="editor"></div>
+      <p>The content of a document is accessed via the <code>getContent()</code> function on a ProseMirror instance. Here, the content of the editor is transformed to JSON and displayed to the user on a button press.</p>
+      <pre>
+document.querySelector(".show-content-button").addEventListener('click', function() {
+  alert( JSON.stringify( pm.getContent() ) );
+})</pre>
+      <p><button type="button" class="show-content-button">Show content</button></p>
+      <p id="editor"></p>
+      <p>The document is made out of nodes in a tree-shape.</p>
+      <pre>{
+  &quot;type&quot;: &quot;doc&quot;,
+  &quot;content&quot;: [
+  {
+    &quot;type&quot;: &quot;paragraph&quot;,
+    &quot;content&quot;: [
+      {
+        &quot;type&quot;: &quot;text&quot;,
+        &quot;text&quot;: &quot;Hi&quot;
+      }]
+  }]
+}</pre>
+      <p>ProseMirror can output content in other formats, including HTML. Here the content is transformed into HTML and displayed to the user on a button press.</p>
+      <pre>
+document.querySelector(".show-content-in-html-button").addEventListener('click', function() {
+  alert( pm.getContent('html') );
+})
+</pre>
+      <p><button type="button" class="show-content-in-html-button">Show content in HTML format</button></p>
+      <h1>ALSO pm.getContent('text') FOR PLAIN TEXT</h1>
       <div id="initial-content">Hi</div>
-      <button type="button" class="get-content-button">Get Content</button>
-      <button type="button" class="get-html-button">Get Content in HTML format</button>
+      <p>The document can be transformed into other, custom formats with <code><a href="http://prosemirror.net/ref.html#defineTarget">defineTarget()</a></code>.
     </div>
     <script src="dist/index.js"></script>
   </body>

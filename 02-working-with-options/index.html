@@ -7,15 +7,57 @@
   </head>
   <body>
     <div class="container">
-    <h1>Editor Options</h1>
-    <p>Options define the general properties of the editor, similar to an HTML element's attributes. e.g. you can set whether the default content of the editor, or whether a toolbar menu should be displayed. </p>
-    <h2>Set the content</h2>
-    <div id="editor-1"></div>
-    <div id="content-1"><p>Here's an <em>editor</em> with <b>default content</b>.</p></div>
-    <h2>Enable toolbar and contextual menus</h2>
-    <p><em>notes about how you have to import modules to use their options and enable their functionality.</em></p>
-    <div id="editor-2"></div>
-    <div id="content-2"><p>Here's an editor with a toolbar menu and a contextual menu. <em>Highlighting text brings up the contextual menu</em>.</p></div>
+      <h1>Editor Options</h1>
+      <p>Editor options define the general properties of the editor, similar to the way an HTML element's attributes work. </p>
+      <p>Options are defined in the object passed in the editor constructor.</p>
+      <h2>Placing the editor</h2>
+      <p>The <code>place</code> option describes which DOM element the editor will be placed.</p>
+<pre>
+import {ProseMirror} from "prosemirror/dist/edit"
+
+let pm = window.pm = new ProseMirror({
+  place: document.querySelector("#editor-1")
+})</pre>
+  <p id="editor-1"></p>
+      <h2>Setting the initial editor content</h2>
+      <p>The <code>doc</code> option sets the editor's initial content.</p>
+<pre>
+import {ProseMirror} from "prosemirror/dist/edit"
+import {fromHTML} from "prosemirror/dist/format"
+import {defaultSchema} from "prosemirror/dist/model"
+
+let pm2 = window.pm2 = new ProseMirror({
+  place: document.querySelector(&quot;#editor-2&quot;),
+  doc: fromHTML( defaultSchema, &quot;&lt;p&gt;Here&apos;s an &lt;em&gt;editor&lt;/em&gt; with &lt;b&gt;default content&lt;/b&gt;.&lt;/p&gt;&quot; )
+})</pre>
+      <p id="editor-2"></p>
+      <p>Notice we're including a few functions from ProseMirror modules to convert HTML text to a <a href="http://prosemirror.net/ref.html#Node">ProseMirror document node</a> object. <code>fromHTML()</code> requires a document schema, which we'll get into a bit later.</p>
+      <p><code><a href="http://prosemirror.net/ref.html#fromDOM">fromDOM()</a></code> is another function in the format module that accepts a DOM element and converts it into a document node.</p>
+      <p>If you're looking to initialize a ProseMirror document from a different format, you could write a parser which outputs a ProseMirror document.</p>
+      <h2>Including menus and auto-input rules</h2>
+      <p>You can add functionality to stuff by importing modules and setting the editor options appropriately.</p>
+      <p>Here, we include the modules for the menu bar, the tooltip (contextual) menu, and auto input rules.</p>
+<pre>
+import {ProseMirror} from "prosemirror/dist/edit"
+import {fromHTML} from "prosemirror/dist/format"
+import {defaultSchema} from "prosemirror/dist/model"
+import "prosemirror/dist/inputrules/autoinput"
+import "prosemirror/dist/menu/tooltipmenu"
+import "prosemirror/dist/menu/menubar"
+
+let pm3 = window.pm3 = new ProseMirror({
+  place: document.querySelector(&quot;#editor-3&quot;),
+  doc: fromHTML( defaultSchema, &quot;&lt;p&gt;Here&apos;s an &lt;em&gt;editor&lt;/em&gt; with &lt;b&gt;default content&lt;/b&gt;. &lt;em&gt;Highlighting text brings up the contextual menu&lt;/em&gt;.&lt;/p&gt;&lt;p&gt;Try entering &lt;code&gt;*+Space&lt;/code&gt; at the beginning of a line to see autoinput rules in action.&lt;/p&gt;&quot; ),
+  menuBar: true,
+  tooltipMenu: true,
+  autoInput: true
+})
+</pre>
+      <p id="editor-3"></p>
+      <h2>Custom Options</h2>
+
+      <h2>More Options</h2>
+      <p>See <a href="http://prosemirror.net/ref.html">the documentation</a> for options. Note that packages can register options, like <code>menubar</code>.</p>
     </div>
     <script src="dist/index.js"></script>
   </body>

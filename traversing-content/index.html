@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    </head>
+    <body>
+    <div class="container">
+      <h1>Traversing content</h1>
+      <p>A node's <code>forEach()</code> function accepts a function to invoke once for each child node. Note that this will iterate over one generation of a node's children, and doesn't recursively walk down the document.</p>
+      <p>Here, the content is checked for run-on sentences in a naive manner (if there is a string of more than 50 characters without a period).</p>
+      <pre>
+document.querySelector(&quot;.check-for-runons-button&quot;).addEventListener(&apos;click&apos;, function() {
+  function iterator( node ) {
+    // isTextBlock is for nodes like paragraph that only contain inline nodes.
+    if ( node.isTextblock ) {
+      // Check if the textblock has a run-on sentence.
+      if ( /[^\.]{50,}/.test(node.textContent) ) {
+        alert( &quot;There&apos;s a run-on sentence!&quot; );
+      }
+    } else if ( node.childCount ) {
+      node.forEach(iterator)
+    }
+  }
+  pm.getContent().forEach(iterator)
+})
+</pre>
+      <p><button type="button" class="check-for-runons-button">Check for run-ons</button></p>
+      <p id="editor"></p>
+      <p>Here we get the document node (<code>pm.getContent()</code>) and iterate over each of its child nodes. If the node  is a "textblock" node, meaning it contains nodes with inline content, then we check its contents for
+      <div id="initial-content"><ul><li>The boy crossed the road and came upon a turtle and the turtle had glasses on because it was on its way to the library.</li></ul></div>
+    </div>
+    <script src="dist/index.js"></script>
+  </body>
+</html>

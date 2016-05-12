@@ -3,7 +3,6 @@ import "prosemirror/dist/inputrules/autoinput"
 import "prosemirror/dist/menu/tooltipmenu"
 import "prosemirror/dist/menu/menubar"
 
-let place = document.querySelector("#editor")
 let pm = window.pm = new ProseMirror({
-  place: place
+  place: document.querySelector("#editor")
 })
