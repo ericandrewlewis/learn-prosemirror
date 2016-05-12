@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    </head>
+    <body>
+    <div class="container">
+      <h1>Getting content from the document</h1>
+      <p>ProseMirror stores content internally in a data structure that looks like something. It can also output to html. If you need a different output you should probably write a serializer that outputs to your preferred format.</p>
+      <div id="editor"></div>
+      <div id="initial-content">Hi</div>
+      <button type="button" class="get-content-button">Get Content</button>
+      <button type="button" class="get-html-button">Get Content in HTML format</button>
+    </div>
+    <script src="dist/index.js"></script>
+  </body>
+</html>

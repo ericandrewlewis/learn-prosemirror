@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Modifying editor content</h1>
+      <p>The content can be modified by creating a transform.</p>
+      <p>This will insert text at the cursor's current position.</p>
+      <pre>pm.tr.typeText(&quot;👀&quot;).apply();</pre>
+      <p><button type="button" class="insert-eyes-button">Insert Eyes</button></p>
+      <p>The document can be modified by creating a transform.</p>
+      <pre>pm.tr.deleteSelection().apply();</pre>
+      <p><button type="button" class="delete-selection-button">Delete Selection</button></p>
+      <p><code>pm.tr.typeText()</code> is actually a wrapper for <code>pm.replaceSelection(pm.schema.text(text), true)</code></p>
+      <p>You'll notice that the text to insert is passed into <code>pm.schema.text(text)</code>. This function accepts a string and creates a text node out of it. This is an "inline text" node. A ProseMirror document is made out of a bunch of nodes.</p>
+      <p>If we want to insert a paragraph of text instead of just inserting one inline, we could do it like so:
+      <pre>
+      let textNode = pm.schema.text("hi")
+      let paragraphNode = pm.schema.nodes.paragraph.create({}, textNode)
+      pm.replaceSelection(paragraphNode, true)
+      </pre>
+      <p><button type="button" class="insert-paragraph-button">Insert paragraph with some text in it</button></p>
+      <div id="editor"></div>
+      <div id="initial-content">Hi</div>
+    </div>
+    <script src="dist/index.js"></script>
+  </body>
+</html>

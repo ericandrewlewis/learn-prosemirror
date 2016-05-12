@@ -3,11 +3,68 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   </head>
   <body>
+    <div class="container">
+      <h2>Installing ProseMirror</h2>
+    <p>ProseMirror is distributed as an npm package, and can be installed with the <a href="https://www.npmjs.com/">npm</a> command line tool.</p>
+    <p>We'll work through exercises, so create a new folder to house them. I'll create mine on my desktop.</p>
+    <pre>mkdir ~/Desktop/learning-prosemirror/; cd ~/Desktop/learning-prosemirror/;</pre>
+    <p>We'll initialize an npm project so we can track what npm packages we install.</p>
+    <pre>npm init --yes</pre>
+    <p>Now install ProseMirror.</p>
+    <pre>npm install --save prosemirror</code></pre>
+    <p>ProseMirror is written as in ES2015, the next version of JavaScript. We'll write our code in ES2015 as well. Not all browsers support ES2015 yet, so we will transpile the source and bundle the script into a single file. We'll use browserify, babel, the babel ES2015 add-on, and watchify to do this. Other transpilation and bundling tools could do the trick too.</p>
+    <pre>npm install --save browserify babelify babel-preset-es2015 watchify</pre>
+    <p>Create the file <code>build.js</code> and add this content:</p>
+    <pre>
+      var fs = require('fs');
+      var browserify = require('browserify');
+      var babelify = require('babelify');
+      var watchify = require('watchify');
+
+      if (!fs.existsSync('dist')){
+        fs.mkdirSync('dist')
+      }
+
+      var b = browserify('src/index.js', {
+        plugin: [ watchify ]
+      })
+
+      // Whenever a file we're watching is updated, run the bundling taslk.
+      b.on('update', bundle)
+
+      // Bundle when we first invoke the build script.
+      bundle()
+
+      // Bundle the application's scripts into a single file for browser use.
+      function bundle() {
+        process.stdout.write("Bundling source...");
+        b.transform('babelify', {presets: ['es2015']})
+          .bundle()
+            .on('error', function(err){
+              process.stdout.write("\n\033[31mBuild error\033[0m: ");
+              process.stdout.write(err.message+"\n");
+            })
+            .pipe(fs.createWriteStream('dist/index.js'))
+              .on('finish', () => {
+                process.stdout.write("\033[32mcomplete\033[0m.\n");
+              })
+      }
+    </pre>
+    <p>Now when you run <code>node build.js</code>, the source file <code>src/index.js</code> will be converted into a single script <code>dist/index.js</code> that the browser can use.</p>
+    <p>Running `node build.js` will run the build process. It may complain that the source file doesn't exist yet.</p>
+    <p>Create a file `src/index.js`, let's create a ProseMirror instance.</p>
+    <pre>
+      import {ProseMirror} from &quot;prosemirror/dist/edit&quot;
+
+      let place = document.querySelector(&quot;#editor&quot;)
+      let pm = window.pm = new ProseMirror({ place: place })
+    </pre>
+    <p>We can then include <code>dist/index.js</code> on the page, the div #editor will be made into a ProseMirror instance below.</p>
     <div id="editor"></div>
-    <div id="initial-content">Hi</div>
+    <p>You'll notice this is very bland. This is the minimal version of ProseMirror: no content, no menu, but things like Command+B will change text to bold.</p>
     <script src="dist/index.js"></script>
   </body>
 </html>
