@@ -15,7 +15,10 @@ let pm = window.pm = new ProseMirror({
 
 let badCapitalization = /\. [a-z]/g
 
-document.querySelector(".check-for-capitalization-button").addEventListener('click', function() {
+pm.on( 'transform', () => {
+  while ( pm.ranges.ranges.length > 0 ) {
+    pm.removeRange( pm.ranges.ranges[0] )
+  }
   function scanFragment( fragment, position ) {
     fragment.forEach((child, offset) => scan(child, position + offset))
   }
