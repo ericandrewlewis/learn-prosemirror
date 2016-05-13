@@ -37,7 +37,6 @@ let pm = window.pm = new ProseMirror({
   menuBar: true
 })
 
-
 // Commands can be executed using the pm.execCommand() method.
 document.querySelector(".insert-eyes-button").addEventListener('click', function() {
   pm.execCommand('insertEyes')

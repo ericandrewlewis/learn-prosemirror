@@ -7,9 +7,9 @@
     </head>
     <body>
     <div class="container">
-      <h1>Getting content from the document</h1>
-      <p>The document is stored on the <code>doc</code> property of an editor instance (e.g. <code>pm.doc</code>).</p>
-      <p>Here, the content is transformed to JSON and displayed to the user on a button press.</p>
+      <h1>Getting and setting the editor's content</h1>
+      <p>The document is stored on the <code>doc</code> property of an editor instance (e.g. <code>pm.doc</code>). You'll use this object for other stuff later. For now we'll use it to get the document's content in various formats.</p>
+      <p>Here, we'll create an editor and display the JSON representation when the content changes.</p>
       <pre>
 import {ProseMirror} from &quot;prosemirror/dist/edit&quot;
 import {fromHTML, toHTML} from &quot;prosemirror/dist/format&quot;
@@ -25,21 +25,35 @@ let pm = window.pm = new ProseMirror({
   tooltipMenu: true
 })
 
-document.querySelector(&quot;.show-content-button&quot;).addEventListener(&apos;click&apos;, function() {
-  alert( JSON.stringify( pm.doc ) );
-})</pre>
-      <p><button type="button" class="show-content-button">Show content</button></p>
+function displayDocInJSON() {
+  let docInJSON = JSON.stringify( pm.doc.toJSON(), null, 2 )
+  document.querySelector(&apos;.document-in-json&apos;).innerHTML = docInJSON
+}
+
+pm.on( &apos;transform&apos;, displayDocInJSON )
+displayDocInJSON()</pre>
       <p id="editor"></p>
       <p>The document is made out of nodes in a tree-shape.</p>
       <pre class="document-in-json"></pre>
-      <p>ProseMirror can output content in other formats, including HTML. Here the content is transformed into HTML and displayed to the user on a button press.</p>
+      <p>If you are saving the document, you could store the content in this JSON format. A document an also be set from JSON with <code>Node.fromJSON()</code>. e.g.
+<pre>
+document.querySelector(&quot;.set-content-with-json-button&quot;).addEventListener(&apos;click&apos;, function() {
+  pm.setDoc( Node.fromJSON(defaultSchema, {&quot;type&quot;: &quot;doc&quot;,&quot;content&quot;: [{&quot;type&quot;: &quot;paragraph&quot;,&quot;content&quot;: [{&quot;type&quot;: &quot;text&quot;,&quot;text&quot;: &quot;Hello&quot;}]}]}) )
+})
+</pre>
+<p><button type="button" class="set-content-with-json-button">Set content with JSON</button></p>
+      <p>ProseMirror can output content in other formats, such as HTML and plain text.</p>
       <pre>
 document.querySelector(".show-content-in-html-button").addEventListener('click', function() {
   alert( toHTML( pm.doc ) );
 })</pre>
       <p><button type="button" class="show-content-in-html-button">Show content in HTML format</button></p>
-      <h1>ALSO pm.getContent('text') FOR PLAIN TEXT</h1>
-      <p>The document can be transformed into other, custom formats with <code><a href="http://prosemirror.net/ref.html#defineTarget">defineTarget()</a></code>.
+      <pre>
+document.querySelector(".show-content-in-html-button").addEventListener('click', function() {
+  alert( toHTML( pm.doc ) );
+})</pre>
+      <p><button type="button" class="show-content-in-plain-text-button">Show content in plain text</button></p>
+      <p>The document can be transformed into a custom format by creating a serializing function similar to the existing ones.
     </div>
     <script src="dist/index.js"></script>
   </body>
