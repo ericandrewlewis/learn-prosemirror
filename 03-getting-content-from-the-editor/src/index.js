@@ -1,24 +1,26 @@
 import {ProseMirror} from "prosemirror/dist/edit"
+import {fromHTML, toHTML} from "prosemirror/dist/format"
+import {defaultSchema} from "prosemirror/dist/model"
+import {Node} from "prosemirror/dist/model"
 import "prosemirror/dist/inputrules/autoinput"
 import "prosemirror/dist/menu/tooltipmenu"
 import "prosemirror/dist/menu/menubar"
-
-let place = document.querySelector("#editor")
-let initialContent = document.querySelector("#initial-content")
-initialContent.style.display = "none"
-
+window.x = Node
 let pm = window.pm = new ProseMirror({
-  place: place,
-  doc: initialContent,
-  docFormat: "dom",
+  place: document.querySelector("#editor"),
+  doc: fromHTML( defaultSchema, "<p>Hi</p>" ),
   menuBar: true,
   tooltipMenu: true
 })
 
-document.querySelector(".show-content-button").addEventListener('click', function() {
-  alert( JSON.stringify( pm.getContent() ) );
-})
+function displayDocInJSON() {
+  let docInJSON = JSON.stringify( pm.doc.toJSON(), null, 2 )
+  document.querySelector('.document-in-json').innerHTML = docInJSON
+}
+
+pm.on( 'transform', displayDocInJSON )
+displayDocInJSON()
 
 document.querySelector(".show-content-in-html-button").addEventListener('click', function() {
-  alert( pm.getContent('html') );
+  alert( toHTML( pm.doc ) );
 })
