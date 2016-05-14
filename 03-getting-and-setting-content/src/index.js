@@ -20,17 +20,17 @@ function displayDocInJSON() {
 pm.on( 'transform', displayDocInJSON )
 displayDocInJSON()
 
-document.querySelector(".set-content-with-json-button").addEventListener('click', function() {
+document.querySelector(".set-document-with-json-button").addEventListener('click', function() {
   pm.setDoc( Node.fromJSON(defaultSchema, {"type": "doc","content": [{"type": "paragraph","content": [{"type": "text","text": "Hello"}]}]}) )
   displayDocInJSON()
 })
 
 
-document.querySelector(".show-content-in-html-button").addEventListener('click', function() {
+document.querySelector(".show-document-in-html-button").addEventListener('click', function() {
   alert( toHTML( pm.doc ) );
 })
 
 
-document.querySelector(".show-content-in-plain-text-button").addEventListener('click', function() {
+document.querySelector(".show-document-in-plain-text-button").addEventListener('click', function() {
   alert( toText( pm.doc ) );
 })
