@@ -1,25 +1,22 @@
-/**
- * We "import" a few modules from the ProseMirror package, which is the
- * ES6 method for using other code.
- */
 import {ProseMirror} from "prosemirror/dist/edit"
-
-let place = document.querySelector("#editor")
-let initialContent = document.querySelector("#initial-content")
-initialContent.style.display = "none"
+import {fromHTML} from "prosemirror/dist/format"
+import {defaultSchema} from "prosemirror/dist/model"
+import "prosemirror/dist/menu/tooltipmenu"
+import "prosemirror/dist/menu/menubar"
 
 let pm = window.pm = new ProseMirror({
-  place: place,
-  doc: initialContent,
-  docFormat: "dom"
+  place: document.querySelector("#editor"),
+  doc: fromHTML( defaultSchema, "<p>Hi</p>" ),
+  menuBar: true,
+  tooltipMenu: true
 })
 
 document.querySelector(".insert-eyes-button").addEventListener('click', function() {
-  pm.tr.typeText("👀").apply();
+  pm.tr.typeText("👀").apply()
 })
 
 document.querySelector(".delete-selection-button").addEventListener('click', function() {
-  pm.tr.deleteSelection().apply();
+  pm.tr.deleteSelection().apply()
 })
 
 document.querySelector(".insert-paragraph-button").addEventListener('click', function() {
