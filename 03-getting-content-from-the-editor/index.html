@@ -3,13 +3,33 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
     </head>
     <body>
     <div class="container">
-      <h1>Getting and setting the editor's content</h1>
-      <p>The document is stored on the <code>doc</code> property of an editor instance (e.g. <code>pm.doc</code>). You'll use this object for other stuff later. For now we'll use it to get the document's content in various formats.</p>
-      <p>Here, we'll create an editor and display the JSON representation when the content changes.</p>
+      <h1>Setting and getting the editor's content</h1>
+      <h2>Setting content</h2>
+      <p>We can set the content of the ProseMirror editor when creating the instance by including a ProseMirror document in the <code>doc</code> option.</p>
+      <pre>
+let pm = window.pm = new ProseMirror({
+  place: document.querySelector(&quot;#editor&quot;),
+  doc: fromHTML( defaultSchema, &quot;&lt;p&gt;Hi&lt;/p&gt;&quot; )
+})</pre>
+      <p><code>fromHTML()</code> is a function that parses a string of HTML and creates a ProseMirror document out of it, filled with content.</p>
+      <p><code>Node.fromJSON()</code> is a function that parses a JSON object that conforms with ProseMirror's document structure and creates a ProseMirror document out of it.</p>
+      <p>This JSON format would be a good format to store the document in if you're saving it to a database.</p>
+<pre>
+document.querySelector(&quot;.set-content-with-json-button&quot;).addEventListener(&apos;click&apos;, function() {
+  pm.setDoc( Node.fromJSON(defaultSchema, {&quot;type&quot;: &quot;doc&quot;,&quot;content&quot;: [{&quot;type&quot;: &quot;paragraph&quot;,&quot;content&quot;: [{&quot;type&quot;: &quot;text&quot;,&quot;text&quot;: &quot;Hello&quot;}]}]}) )
+})
+</pre>
+      <p><button type="button" class="set-content-with-json-button">Set content with JSON</button></p>
+      <p><code>fromDOM()</code> and <code>fromText()</code> are other parsing functions that create a ProseMirror document from either DOM elements or a plain text string.</p>
+      <p>We could also set the content of an editor with the <code>pm.setContent()</code> function.</p>
+      <h2>Getting content</h2>
+      <p>The editor's document is accessible on the <code>doc</code> property of an editor (e.g. <code>pm.doc</code>).</p>
+      <p>The document has various methods available on it, and is the main interface for interacting with the document.</p>
+      <p>Here, we'll get the content and its the JSON representation when the content changes.</p>
       <pre>
 import {ProseMirror} from &quot;prosemirror/dist/edit&quot;
 import {fromHTML, toHTML} from &quot;prosemirror/dist/format&quot;
@@ -36,12 +56,6 @@ displayDocInJSON()</pre>
       <p>The document is made out of nodes in a tree-shape.</p>
       <pre class="document-in-json"></pre>
       <p>If you are saving the document, you could store the content in this JSON format. A document an also be set from JSON with <code>Node.fromJSON()</code>. e.g.
-<pre>
-document.querySelector(&quot;.set-content-with-json-button&quot;).addEventListener(&apos;click&apos;, function() {
-  pm.setDoc( Node.fromJSON(defaultSchema, {&quot;type&quot;: &quot;doc&quot;,&quot;content&quot;: [{&quot;type&quot;: &quot;paragraph&quot;,&quot;content&quot;: [{&quot;type&quot;: &quot;text&quot;,&quot;text&quot;: &quot;Hello&quot;}]}]}) )
-})
-</pre>
-<p><button type="button" class="set-content-with-json-button">Set content with JSON</button></p>
       <p>ProseMirror can output content in other formats, such as HTML and plain text.</p>
       <pre>
 document.querySelector(".show-content-in-html-button").addEventListener('click', function() {
@@ -53,7 +67,7 @@ document.querySelector(".show-content-in-html-button").addEventListener('click',
   alert( toHTML( pm.doc ) );
 })</pre>
       <p><button type="button" class="show-content-in-plain-text-button">Show content in plain text</button></p>
-      <p>The document can be transformed into a custom format by creating a serializing function similar to the existing ones.
+      <p>The document can be transformed into a custom format by creating a serializing function similar to the existing ones.</p>
     </div>
     <script src="dist/index.js"></script>
   </body>
