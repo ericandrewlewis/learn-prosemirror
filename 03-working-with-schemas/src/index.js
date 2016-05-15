@@ -2,7 +2,7 @@ import {ProseMirror} from "prosemirror/dist/edit"
 import "prosemirror/dist/inputrules/autoinput"
 import "prosemirror/dist/menu/tooltipmenu"
 import "prosemirror/dist/menu/menubar"
-import {Schema, SchemaSpec, Doc, BlockQuote, OrderedList, BulletList, ListItem, HorizontalRule, Paragraph, Heading, Text} from "prosemirror/dist/model"
+import {Schema, SchemaSpec, Doc, Paragraph, Heading, Text} from "prosemirror/dist/model"
 import {fromHTML} from "prosemirror/dist/format"
 
 // :: SchemaSpec
