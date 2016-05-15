@@ -9,9 +9,12 @@
     <div class="container">
       <h1>Working with schemas</h1>
       <p>A schema defines what type of nodes are allowed in a document.</p>
-      <p>A document uses a default schema if one is not set. The default schema includes all the default node types. A document can contain
-      headings, paragraphs, unordered and ordered lists</p>
-      <div id="editor"></div>
+      <p>default schema if one is not set. The default schema includes all the default node and mark types. The document can contain
+      headings, paragraphs, unordered lists, ordered lists and horizontal rules. Text content can contain certain mark types, e.g. strong,
+      emphasized text and inline links.</p>
+      <p id="editor-1"></p>
+      <p>We can create a custom schema to control what sort of content the document can contain. Here, we create an editor that can only contain </p>
+      <p id="editor-2"></p>
     </div>
     <script src="dist/index.js"></script>
   </body>
