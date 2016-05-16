@@ -9,14 +9,14 @@
     <div class="container">
       <h1>Setting and getting the editor's document</h1>
       <h2>Setting document</h2>
-      <p>We can set the document of the ProseMirror editor when creating the instance by including a ProseMirror document in the <code>doc</code> option.</p>
+      <p>We can set the document of the ProseMirror editor when creating the instance by including a document in the <code>doc</code> option.</p>
       <pre>
 let pm = window.pm = new ProseMirror({
   place: document.querySelector(&quot;#editor&quot;),
   doc: fromHTML( defaultSchema, &quot;&lt;p&gt;Hi&lt;/p&gt;&quot; )
 })</pre>
-      <p><code>fromHTML()</code> is a function that parses a string of HTML and creates a ProseMirror document out of it, filled with the supplied content.</p>
-      <p><code>Node.fromJSON()</code> is a function that parses a JSON object that conforms with ProseMirror's document structure and creates a ProseMirror document out of it.</p>
+      <p><code>fromHTML()</code> is a function that creates a document node based on a string of HTML.</p>
+      <p><code>Node.fromJSON()</code> is a function that creates a document node from a JSON object.</p>
       <p>This JSON format would be a good format to store the document in if you're saving it to a database.</p>
 <pre>
 document.querySelector(&quot;.set-content-with-json-button&quot;).addEventListener(&apos;click&apos;, function() {
@@ -27,8 +27,7 @@ document.querySelector(&quot;.set-content-with-json-button&quot;).addEventListen
       <p><code>fromDOM()</code> and <code>fromText()</code> are other parsing functions that create a ProseMirror document from either DOM elements or a plain text string.</p>
       <p>We could also set the document of an editor with the <code>pm.setDoc()</code> function.</p>
       <h2>Getting document</h2>
-      <p>The editor's document is accessible on the <code>doc</code> property of an editor (e.g. <code>pm.doc</code>).</p>
-      <p>The document has various methods available on it, and is the main interface for interacting with the document.</p>
+      <p>The editor's document node is accessible on the <code>doc</code> property of an editor (e.g. <code>pm.doc</code>).</p>
       <p>Here, we'll get the document and its the JSON representation when the document changes.</p>
       <pre>
 import {ProseMirror} from &quot;prosemirror/dist/edit&quot;

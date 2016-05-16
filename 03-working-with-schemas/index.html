@@ -13,7 +13,33 @@
       headings, paragraphs, unordered lists, ordered lists and horizontal rules. Text content can contain certain mark types, e.g. strong,
       emphasized text and inline links.</p>
       <p id="editor-1"></p>
-      <p>We can create a custom schema to control what sort of content the document can contain. Here, we create an editor that can only contain </p>
+      <p>We can create a custom schema to control what type of content the document contains. Here, we create a document made up only of headings and paragraphs. </p>
+<pre>import {ProseMirror} from &quot;prosemirror/dist/edit&quot;
+import {Schema, SchemaSpec, Doc, Paragraph, Heading, Text, defaultSchema} from &quot;prosemirror/dist/model&quot;
+import {fromHTML} from &quot;prosemirror/dist/format&quot;
+import &quot;prosemirror/dist/inputrules/autoinput&quot;
+import &quot;prosemirror/dist/menu/tooltipmenu&quot;
+import &quot;prosemirror/dist/menu/menubar&quot;
+
+const schemaSpec = new SchemaSpec({
+  doc: Doc,
+
+  paragraph: Paragraph,
+  heading: Heading,
+
+  text: Text
+})
+
+const schema = new Schema(schemaSpec)
+
+let pm2 = window.pm2 = new ProseMirror({
+  place: document.querySelector(&quot;#editor-2&quot;),
+  doc: fromHTML( schema, &quot;&lt;p&gt;Hi&lt;/p&gt;&quot; ),
+  schema: schema,
+  menuBar: true,
+  tooltipMenu: true
+})</pre>
+      <p>Notice that the toolbar menu only displays UI relevant to the current schema.</p>
       <p id="editor-2"></p>
     </div>
     <script src="dist/index.js"></script>
