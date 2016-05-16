@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style>
+    .needs-caps {
+      background: #fdd; border-bottom: 1px solid #f22;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Traversing the document</h1>
+      <p>Every node has a <code>forEach()</code> function which can be used to iterate over its content. <code>forEach()</code> accepts a function which is invoked for each of its child node. Note that this iterates over one level, it doesn't walk down the document recursively by default.</p>
+      <pre>
+import {ProseMirror} from &quot;prosemirror/dist/edit&quot;
+import {fromHTML} from &quot;prosemirror/dist/format&quot;
+import {defaultSchema} from &quot;prosemirror/dist/model&quot;
+import &quot;prosemirror/dist/inputrules/autoinput&quot;
+import &quot;prosemirror/dist/menu/tooltipmenu&quot;
+import &quot;prosemirror/dist/menu/menubar&quot;
+
+let pm = window.pm = new ProseMirror({
+  place: document.querySelector(&quot;#editor&quot;),
+  doc: fromHTML( defaultSchema, &quot;&lt;ul&gt;&lt;li&gt;It was the best of times. it was the worst of times.&lt;/li&gt;&lt;/ul&gt;&quot; ),
+  menuBar: true,
+  tooltipMenu: true,
+  autoInput: true
+})
+
+let badCapitalization = /\. [a-z]/g
+
+let checkDocumentForBadCaps = () =&gt; {
+  while ( pm.ranges.ranges.length &gt; 0 ) {
+    pm.removeRange( pm.ranges.ranges[0] )
+  }
+  function scanFragment( fragment, position ) {
+    fragment.forEach((child, offset) =&gt; scan(child, position + offset))
+  }
+  function scan(node, position) {
+    if ( node.isText ) {
+      let match
+      while (match = badCapitalization.exec(node.text)) {
+        pm.markRange(position + match.index + 2, position + match.index + match[0].length, {className: &quot;needs-caps&quot;})
+      }
+    }
+    scanFragment(node.content, position + 1)
+  }
+  scanFragment(pm.doc.content, 0)
+}
+checkDocumentForBadCaps()
+
+pm.on( &apos;transform&apos;, checkDocumentForBadCaps )
+
+</pre>
+      <p id="editor"></p>
+      <p>Here we get the document node (<code>pm.getContent()</code>) and iterate over each of its child nodes. If the node  is a text node, meaning it contains inline text content, then we check its contents for poor capitalization. If it is found, we use the <code>markRange()</code> function to add a class around the character that should be capitalized.</p>
+    </div>
+    <script src="dist/index.js"></script>
+  </body>
+</html>

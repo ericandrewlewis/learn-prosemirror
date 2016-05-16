@@ -7,7 +7,7 @@ import "prosemirror/dist/menu/menubar"
 
 let pm = window.pm = new ProseMirror({
   place: document.querySelector("#editor"),
-  doc: fromHTML( defaultSchema, "<ul><li>The boy crossed the road and came upon a turtle and the turtle had glasses on because it was on its way to the library.</li></ul>" ),
+  doc: fromHTML( defaultSchema, "<ul><li>It was the best of times. it was the worst of times.</li></ul>" ),
   menuBar: true,
   tooltipMenu: true,
   autoInput: true
@@ -15,7 +15,7 @@ let pm = window.pm = new ProseMirror({
 
 let badCapitalization = /\. [a-z]/g
 
-pm.on( 'transform', () => {
+let checkDocumentForBadCaps = () => {
   while ( pm.ranges.ranges.length > 0 ) {
     pm.removeRange( pm.ranges.ranges[0] )
   }
@@ -26,10 +26,13 @@ pm.on( 'transform', () => {
     if ( node.isText ) {
       let match
       while (match = badCapitalization.exec(node.text)) {
-        pm.markRange(position + match.index, position + match.index + match[0].length, {className: "needs-caps"})
+        pm.markRange(position + match.index + 2, position + match.index + 3, {className: "needs-caps"})
       }
     }
     scanFragment(node.content, position + 1)
   }
   scanFragment(pm.doc.content, 0)
-})
+}
+checkDocumentForBadCaps()
+
+pm.on( 'transform', checkDocumentForBadCaps )
