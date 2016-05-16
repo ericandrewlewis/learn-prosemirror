@@ -10,14 +10,14 @@
       <h1>Modifying content</h1>
       <p>A document is not changed directly. Instead, you create transform objects which describe changes, and then apply them to the document.</p>
       <p>You create a new transform by referencing <code>pm.tr</code></p>
-      <p>Some shorthand functions wrap the lower-level business of creating a transform, like <code>pm.tr.typeText()</code>, which inserts text at the user's cursor.</p>
+      <p>Some shorthand functions exist for creating a transform, like <code>pm.tr.typeText()</code>, which inserts text at the user's cursor.</p>
+      <p>Here, we'll insert emoji eyes at the user cursor's position in the document when a button is pressed.
 <pre>
 document.querySelector(".insert-eyes-button").addEventListener('click', function() {
   pm.tr.typeText("👀").apply();
 })</pre>
-      <p>After creating a transform, <code>.apply()</code> makes the change to the document.</p>
       <p><button type="button" class="insert-eyes-button">Insert Eyes</button></p>
-      <div id="editor"></div>
+      <p id="editor"></p>
       <p><code>pm.tr.deleteSelection()</code> will delete the content the user has selected.
 <pre>
 document.querySelector(".delete-selection-button").addEventListener('click', function() {
