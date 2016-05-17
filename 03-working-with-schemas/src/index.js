@@ -1,5 +1,5 @@
 import {ProseMirror} from "prosemirror/dist/edit"
-import {Schema, SchemaSpec, Doc, Paragraph, Heading, Text, defaultSchema} from "prosemirror/dist/model"
+import {Schema, Doc, Paragraph, Heading, Text, defaultSchema} from "prosemirror/dist/model"
 import {fromHTML} from "prosemirror/dist/format"
 import "prosemirror/dist/inputrules/autoinput"
 import "prosemirror/dist/menu/tooltipmenu"
@@ -12,18 +12,23 @@ let pm1 = window.pm1 = new ProseMirror({
   tooltipMenu: true
 })
 
-// :: SchemaSpec
-// The specification for the default schema.
-const schemaSpec = new SchemaSpec({
-  doc: Doc,
+const schema = new Schema({
+  nodes: {
+    doc: {type: Doc, content: "block+"},
 
-  paragraph: Paragraph,
-  heading: Heading,
+    paragraph: {type: Paragraph, content: "inline[_]*"},
+    heading: {type: Heading, content: "inline[_]*"},
 
-  text: Text
+    text: {type: Text},
+  },
+
+  groups: {
+    block: ["paragraph", "heading"],
+    inline: ["text"]
+  },
+
+  marks: {}
 })
-
-const schema = new Schema(schemaSpec)
 
 let pm2 = window.pm2 = new ProseMirror({
   place: document.querySelector("#editor-2"),

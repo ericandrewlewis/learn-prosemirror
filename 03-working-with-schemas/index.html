@@ -15,22 +15,36 @@
       <p id="editor-1"></p>
       <p>We can create a custom schema to control what type of content the document contains. Here, we create a document made up only of headings and paragraphs. </p>
 <pre>import {ProseMirror} from &quot;prosemirror/dist/edit&quot;
-import {Schema, SchemaSpec, Doc, Paragraph, Heading, Text, defaultSchema} from &quot;prosemirror/dist/model&quot;
+import {Schema, Doc, Paragraph, Heading, Text, defaultSchema} from &quot;prosemirror/dist/model&quot;
 import {fromHTML} from &quot;prosemirror/dist/format&quot;
 import &quot;prosemirror/dist/inputrules/autoinput&quot;
 import &quot;prosemirror/dist/menu/tooltipmenu&quot;
 import &quot;prosemirror/dist/menu/menubar&quot;
 
-const schemaSpec = new SchemaSpec({
-  doc: Doc,
-
-  paragraph: Paragraph,
-  heading: Heading,
-
-  text: Text
+let pm1 = window.pm1 = new ProseMirror({
+  place: document.querySelector(&quot;#editor-1&quot;),
+  doc: fromHTML( defaultSchema, &quot;&lt;p&gt;This is a document based on the default schema.&lt;/p&gt;&quot; ),
+  menuBar: true,
+  tooltipMenu: true
 })
 
-const schema = new Schema(schemaSpec)
+const schema = new Schema({
+  nodes: {
+    doc: {type: Doc, content: &quot;block+&quot;},
+
+    paragraph: {type: Paragraph, content: &quot;inline[_]*&quot;},
+    heading: {type: Heading, content: &quot;inline[_]*&quot;},
+
+    text: {type: Text},
+  },
+
+  groups: {
+    block: [&quot;paragraph&quot;, &quot;heading&quot;],
+    inline: [&quot;text&quot;]
+  },
+
+  marks: {}
+})
 
 let pm2 = window.pm2 = new ProseMirror({
   place: document.querySelector(&quot;#editor-2&quot;),
