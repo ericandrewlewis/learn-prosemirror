@@ -16,15 +16,10 @@ const schema = new Schema({
   nodes: {
     doc: {type: Doc, content: "block+"},
 
-    paragraph: {type: Paragraph, content: "inline[_]*"},
-    heading: {type: Heading, content: "inline[_]*"},
+    paragraph: {type: Paragraph, content: "inline<_>*", group: "block"},
+    heading: {type: Heading, content: "inline<_>*", group: "block"},
 
-    text: {type: Text},
-  },
-
-  groups: {
-    block: ["paragraph", "heading"],
-    inline: ["text"]
+    text: {type: Text, group: "inline"},
   },
 
   marks: {}

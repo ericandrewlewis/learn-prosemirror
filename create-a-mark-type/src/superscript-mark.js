@@ -25,7 +25,6 @@ SuperscriptMark.register("command", "toggle", {
   label: "Toggle superscript",
   menu: {
     group: "inline",
-    rank: 22,
     select: "disable",
     display: {
       type: "icon",

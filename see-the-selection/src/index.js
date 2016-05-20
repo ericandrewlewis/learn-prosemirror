@@ -25,4 +25,5 @@ let displaySelectionInfo = () => {
   }
 }
 
+
 pm.on("selectionChange", displaySelectionInfo)
