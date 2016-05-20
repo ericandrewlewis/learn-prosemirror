@@ -19,7 +19,7 @@ const schema = new Schema({
     paragraph: {type: Paragraph, content: "inline<_>*", group: "block"},
     heading: {type: Heading, content: "inline<_>*", group: "block"},
 
-    text: {type: Text, group: "inline"},
+    text: {type: Text, group: "inline"}
   },
 
   marks: {}

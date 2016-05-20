@@ -8,8 +8,6 @@ export default class BlockOfColor extends Block {
     }
   }
 
-  get contains() { return null }
-
   serializeDOM(node, serializer) {
     let ele = elt("div", {
       style: "height: 100px; background-color: red;"
